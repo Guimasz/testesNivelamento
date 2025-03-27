@@ -20,7 +20,10 @@ class WebScrapper:
         self.url = URL_SITE
         
     def get_links(self):
+        
         anexos_encontrados = {} # dicionario para armazenar os links dos arquivos encontrados
+        anexos_pendentes = set(ARQUIVOS_DESEJADOS) #arquivos que ainda não foram encontrados
+        
         try:
             response = requests.get(self.url)# recupera a página
             response.raise_for_status()# lança uma exceção se a resposta não for bem sucedida
@@ -30,14 +33,23 @@ class WebScrapper:
             
             
             for link in links: 
+                # Se a lista de pendentes estiver vazia, finaliza a busca
+                if not anexos_pendentes:
+                    break
+
+                # ignora se a url não termina com o tipo de arquivo desejado
+                if not link["href"].endswith(TIPO_ARQUIVO):
+                    continue
+                
                 for nome_arquivo in ARQUIVOS_DESEJADOS:   
                     # atribui apenas o primeiro link encontrado para o nome do arquivo
                     if nome_arquivo in anexos_encontrados:
                         continue
                     # verifica se o nome do arquivo desejado está no texto do elemento com link e se o link termina com o tipo de arquivo desejado  
-                    if nome_arquivo.lower() in link.text.lower() and link["href"].endswith(TIPO_ARQUIVO):
+                    if nome_arquivo.lower() in link.text.lower():
                         url_completo = urljoin(self.url, link["href"]) 
                         anexos_encontrados[nome_arquivo] = url_completo # atribui o link ao nome do arquivo
+                        anexos_pendentes.remove(nome_arquivo) #atualiza a lista de pendentes
                         
         except requests.exceptions.RequestException as e:
             print(f"Erro ao buscar links {self.url}: {e}")           
