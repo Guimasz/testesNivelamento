@@ -72,7 +72,7 @@ class Downloader:
             
             if resposta.status_code == 200:
                 with open(caminho, "wb") as arquivo:# abre o arquivo para escrita 
-                    for chunk in resposta.iter_content(1024): # baixa o arquivo em partes de 1024 bytes
+                    for chunk in resposta.iter_content(8192): # baixa o arquivo em partes de 1024 bytes
                         arquivo.write(chunk)
                 print(f"✅ Arquivo {nome_arquivo} baixado com sucesso!")
                 return caminho #retorna onde o arquivo foi salvo
@@ -103,7 +103,6 @@ class Compactador:
  # execucao do programa
 def main(scraper, downloader):
     
-    
     # Passo 1: Acha os links dos arquivos desejados
     anexos = scraper.get_links() 
     
@@ -119,7 +118,7 @@ def main(scraper, downloader):
             
             
             
-if __name__ == "__main__":
+if __name__ == "__main__": #carrega as configurações padrão
     
     scraper = WebScrapper(url=URL_SITE_DEFAULT, arquivos=ARQUIVOS_DESEJADOS_DEFAULT, tipo=TIPO_ARQUIVO_DEFAULT) # instancia o WebScrapper com a url configurada
     
