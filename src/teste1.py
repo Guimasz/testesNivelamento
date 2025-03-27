@@ -55,11 +55,11 @@ class Downloader:
                 with open(caminho, "wb") as arquivo:# abre o arquivo para escrita 
                     for chunk in resposta.iter_content(1024): # baixa o arquivo em partes de 1024 bytes
                         arquivo.write(chunk)
-                print(f"Arquivo {nome_arquivo} baixado com sucesso!")
+                print(f"✅ Arquivo {nome_arquivo} baixado com sucesso!")
                 return caminho #retorna onde o arquivo foi salvo
             
         except requests.exceptions.RequestException as e:
-            print(f"Erro ao baixar o arquivo {nome_arquivo}: {e}")
+            print(f"❌ Erro ao baixar o arquivo {nome_arquivo}: {e}")
             return None
             
         
@@ -75,10 +75,10 @@ class Compactador:
             with ZipFile(nome_zip, "w") as zipf:
                 for arquivo in arquivos:
                     zipf.write(arquivo)
-                print(f"Arquivos compactados com sucesso em {nome_zip}!")
+                print(f"📦 Arquivos compactados com sucesso em {nome_zip}!")
                 return nome_zip # retorna o caminho do arquivo compactado
         except Exception as e:  
-            print(f"Erro ao compactar arquivos: {e}")
+            print(f"❌ Erro ao compactar arquivos: {e}")
             return None
         
  # execucao do programa
