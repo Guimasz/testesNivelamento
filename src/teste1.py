@@ -6,9 +6,9 @@ from urllib.parse import urljoin
 
 # configurando o ambiente
 PASTA_DOWNLOADS = "downloads"
-URL_SITE = "https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos"
-ARQUIVOS_DESEJADOS = ['Anexo I', 'Anexo II']
-TIPO_ARQUIVO = ".pdf" # alterar para procurar tipo diferente de arquivo
+URL_SITE_DEFAULT = "https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos"
+ARQUIVOS_DESEJADOS_DEFAULT= ['Anexo I', 'Anexo II']
+TIPO_ARQUIVO_DEFAULT = ".pdf" # alterar para procurar tipo diferente de arquivo
 
 
 
@@ -16,13 +16,15 @@ TIPO_ARQUIVO = ".pdf" # alterar para procurar tipo diferente de arquivo
 
 #Classe para extrair links de uma página web
 class WebScrapper:
-    def __init__(self, URL_SITE):
-        self.url = URL_SITE
+    def __init__(self, url=URL_SITE_DEFAULT, arquivos=ARQUIVOS_DESEJADOS_DEFAULT, tipo=TIPO_ARQUIVO_DEFAULT):
+        self.url = url
+        self.arquivos_desejados = arquivos
+        self.tipo_arquivo = tipo
         
     def get_links(self):
         
         anexos_encontrados = {} # dicionario para armazenar os links dos arquivos encontrados
-        anexos_pendentes = set(ARQUIVOS_DESEJADOS) #arquivos que ainda não foram encontrados
+        anexos_pendentes = set(self.arquivos_desejados) #cria uma lista de pendentes com os arquivos desejados
         
         try:
             response = requests.get(self.url)# recupera a página
@@ -38,10 +40,10 @@ class WebScrapper:
                     break
 
                 # ignora se a url não termina com o tipo de arquivo desejado
-                if not link["href"].endswith(TIPO_ARQUIVO):
+                if not link["href"].endswith(self.tipo_arquivo):
                     continue
                 
-                for nome_arquivo in ARQUIVOS_DESEJADOS:   
+                for nome_arquivo in self.arquivos_desejados:   
                     # atribui apenas o primeiro link encontrado para o nome do arquivo
                     if nome_arquivo in anexos_encontrados:
                         continue
@@ -57,11 +59,12 @@ class WebScrapper:
     
 # classe responsavel por gravar um arquivo em uma pasta    
 class Downloader:
-    def __init__(self, pasta_destino):
+    def __init__(self, pasta_destino, tipo_arquivo):
         self.pasta_destino = pasta_destino
+        self.tipo_arquivo = tipo_arquivo
     
     def download_arquivo(self, url, nome_arquivo):
-        nome_arquivo = f"{nome_arquivo}{TIPO_ARQUIVO}" # adiciona a extensão do arquivo ao nome
+        nome_arquivo = f"{nome_arquivo}{self.tipo_arquivo}" # adiciona a extensão do arquivo ao nome
         
         caminho = os.path.join(self.pasta_destino, nome_arquivo)
         try:
@@ -98,13 +101,8 @@ class Compactador:
             return None
         
  # execucao do programa
-def main():
-    scraper = WebScrapper(URL_SITE) # instancia o WebScrapper com a url configurada
+def main(scraper, downloader):
     
-    # criando a pasta de downloads se não existir
-    os.makedirs(PASTA_DOWNLOADS, exist_ok=True)
-    
-    downloader = Downloader(PASTA_DOWNLOADS) # instancia o Downloader com a pasta de downloads configurada
     
     # Passo 1: Acha os links dos arquivos desejados
     anexos = scraper.get_links() 
@@ -122,4 +120,11 @@ def main():
             
             
 if __name__ == "__main__":
-    main()
+    
+    scraper = WebScrapper(url=URL_SITE_DEFAULT, arquivos=ARQUIVOS_DESEJADOS_DEFAULT, tipo=TIPO_ARQUIVO_DEFAULT) # instancia o WebScrapper com a url configurada
+    
+    # criando a pasta de downloads se não existir
+    os.makedirs(PASTA_DOWNLOADS, exist_ok=True)
+    
+    downloader = Downloader(PASTA_DOWNLOADS, tipo_arquivo= TIPO_ARQUIVO_DEFAULT) # instancia o Downloader com a pasta de downloads configurada
+    main(scraper, downloader)
