@@ -10,8 +10,7 @@ URL_SITE = "https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-soc
 ARQUIVOS_DESEJADOS = ['Anexo I', 'Anexo II']
 TIPO_ARQUIVO = ".pdf" # alterar para procurar tipo diferente de arquivo
 
-# criando a pasta de downloads se não existir
-os.makedirs(PASTA_DOWNLOADS, exist_ok=True)
+
 
 
 
@@ -85,6 +84,10 @@ class Compactador:
  # execucao do programa
 def main():
     scraper = WebScrapper(URL_SITE) # instancia o WebScrapper com a url configurada
+    
+    # criando a pasta de downloads se não existir
+    os.makedirs(PASTA_DOWNLOADS, exist_ok=True)
+    
     downloader = Downloader(PASTA_DOWNLOADS) # instancia o Downloader com a pasta de downloads configurada
     
     # Passo 1: Acha os links dos arquivos desejados
