@@ -29,12 +29,16 @@ class WebScrapper:
             
             
             
-            for link in links:
-                for nome_arquivo in ARQUIVOS_DESEJADOS:
+            for link in links: 
+                for nome_arquivo in ARQUIVOS_DESEJADOS:   
+                    # atribui apenas o primeiro link encontrado para o nome do arquivo
+                    if nome_arquivo in anexos_encontrados:
+                        continue
                     # verifica se o nome do arquivo desejado está no texto do elemento com link e se o link termina com o tipo de arquivo desejado  
                     if nome_arquivo.lower() in link.text.lower() and link["href"].endswith(TIPO_ARQUIVO):
                         url_completo = urljoin(self.url, link["href"]) 
                         anexos_encontrados[nome_arquivo] = url_completo # atribui o link ao nome do arquivo
+                        
         except requests.exceptions.RequestException as e:
             print(f"Erro ao buscar links {self.url}: {e}")           
         return anexos_encontrados # dicionario com nome do arquivo e o link completo dele
@@ -96,11 +100,11 @@ def main():
     # Passo 2: Baixa os arquivos
     arquivos_baixados = []
     for nome_arquivo, url in anexos.items():
-        local_arquivo = downloader.download_arquivo(url, nome_arquivo)
-        if local_arquivo:
-            arquivos_baixados.append(local_arquivo)
+         local_arquivo = downloader.download_arquivo(url, nome_arquivo)
+         if local_arquivo:
+             arquivos_baixados.append(local_arquivo)
     
-    # Passo 3: Compacta os arquivos baixados
+     # Passo 3: Compacta os arquivos baixados
     Compactador.compactar_arquivos(arquivos_baixados, "arquivos.zip")
             
             
