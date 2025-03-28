@@ -74,19 +74,22 @@ def main(pdf_extractor: PDFTableExtractor, transformer: DataTransformer,
     compressor.compress(csv_file)
 
 if __name__ == "__main__":
-    CAMINHO_PDF = "./downloads/Anexo I.pdf"
+    try:
+        CAMINHO_PDF = "downloads/Anexo I.pdf"
 
-    DICT_COLUNAS = {
-        "OD": "Observação Detalhada",
-        "AMB": "Atendimento Ambulatorial"
-    }
-    
-    CAMINHO_CSV = "dados_rol.csv"
-    CAMINHO_ZIP = "Teste_Guilherme_Araujo_De_Souza.zip"
-    
-    pdf_extractor = PDFTableExtractor(caminho_pdf=CAMINHO_PDF, pages='all')
-    transformer = DataTransformer(dict_colunas=DICT_COLUNAS)
-    exporter = CSVExporter(caminho_csv=CAMINHO_CSV)
-    compressor = ZipCompressor(caminho_zip=CAMINHO_ZIP)
-    
-    main(pdf_extractor, transformer, exporter, compressor)
+        DICT_COLUNAS = {
+            "OD": "Observação Detalhada",
+            "AMB": "Atendimento Ambulatorial"
+        }
+        
+        CAMINHO_CSV = "dados_rol.csv"
+        CAMINHO_ZIP = "Teste_Guilherme_Araujo_De_Souza.zip"
+        
+        pdf_extractor = PDFTableExtractor(caminho_pdf=CAMINHO_PDF, pages='all')
+        transformer = DataTransformer(dict_colunas=DICT_COLUNAS)
+        exporter = CSVExporter(caminho_csv=CAMINHO_CSV)
+        compressor = ZipCompressor(caminho_zip=CAMINHO_ZIP)
+        
+        main(pdf_extractor, transformer, exporter, compressor)
+    except Exception as e:
+        print(f"❌ Ocorreu um erro: {e}")
