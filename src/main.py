@@ -1,4 +1,5 @@
 import os
+import sys
 import teste1
 
 # Novas constantes definidas no main.py
@@ -12,11 +13,15 @@ def main():
     os.makedirs(PASTA_DOWNLOADS, exist_ok=True)
 
     # Instancia as classes com as constantes definidas no main.py
-    scraper = teste1.WebScrapper(url=URL_SITE, arquivos=ARQUIVOS_DESEJADOS, tipo=TIPO_ARQUIVO)
+    scraper = teste1.WebScrapper(url=URL_SITE, arquivos_desejados=ARQUIVOS_DESEJADOS, tipo=TIPO_ARQUIVO)
     downloader = teste1.Downloader(PASTA_DOWNLOADS, tipo_arquivo= TIPO_ARQUIVO)
 
     # Chama a função main() do teste1
-    teste1.main(scraper, downloader)
+    try:
+        teste1.main(scraper, downloader)
+    except ValueError as e:
+        print(e)
+        sys.exit(1) 
     
     
 if __name__ == "__main__":

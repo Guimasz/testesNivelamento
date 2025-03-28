@@ -16,9 +16,9 @@ TIPO_ARQUIVO_DEFAULT = ".pdf" # alterar para procurar tipo diferente de arquivo
 
 #Classe para extrair links de uma página web
 class WebScrapper:
-    def __init__(self, url=URL_SITE_DEFAULT, arquivos=ARQUIVOS_DESEJADOS_DEFAULT, tipo=TIPO_ARQUIVO_DEFAULT):
+    def __init__(self, url, arquivos_desejados, tipo):
         self.url = url
-        self.arquivos_desejados = arquivos
+        self.arquivos_desejados = arquivos_desejados
         self.tipo_arquivo = tipo
         
     def get_links(self):
@@ -52,6 +52,9 @@ class WebScrapper:
                         url_completo = urljoin(self.url, link["href"]) 
                         anexos_encontrados[nome_arquivo] = url_completo # atribui o link ao nome do arquivo
                         anexos_pendentes.remove(nome_arquivo) #atualiza a lista de pendentes
+                    
+            if not anexos_encontrados:
+                raise ValueError(f"⚠️ Nenhum arquivo desejado foi encontrado na página: {self.url}")
                         
         except requests.exceptions.RequestException as e:
             print(f"Erro ao buscar links {self.url}: {e}")           
@@ -120,7 +123,7 @@ def main(scraper, downloader):
             
 if __name__ == "__main__": #carrega as configurações padrão
     
-    scraper = WebScrapper(url=URL_SITE_DEFAULT, arquivos=ARQUIVOS_DESEJADOS_DEFAULT, tipo=TIPO_ARQUIVO_DEFAULT) # instancia o WebScrapper com a url configurada
+    scraper = WebScrapper(url=URL_SITE_DEFAULT, arquivos_desejados=ARQUIVOS_DESEJADOS_DEFAULT, tipo=TIPO_ARQUIVO_DEFAULT) # instancia o WebScrapper com a url configurada
     
     # criando a pasta de downloads se não existir
     os.makedirs(PASTA_DOWNLOADS, exist_ok=True)
