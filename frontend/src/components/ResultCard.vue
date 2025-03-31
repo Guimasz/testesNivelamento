@@ -17,22 +17,25 @@
   
   <style>
   .card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 10px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-    transition: transform 0.2s ease;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
-  /* .card:hover {
-    transform: scale(1.02);
-  } */
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
   
   .card p {
     margin: 0;
-    font-size: 16px;
+    font-size: 18px;
     color: #333;
+    font-weight: 500;
+    text-align: center;
   }
   </style>

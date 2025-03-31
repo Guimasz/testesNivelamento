@@ -1,24 +1,15 @@
-
-
 <template>
   <div id="app">
-    <h1>Operadoras de Plano de Saúde</h1>
+    <h1 class="titulo">Operadoras de Plano de Saúde</h1>
     <SearchComponent />
   </div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.titulo {
+  font-size: 3em; 
+  text-align: center;
+  margin-bottom: 20px;
 }
 </style>
 
