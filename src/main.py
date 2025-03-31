@@ -1,15 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS 
 from services import SearchService
 
 app = Flask(__name__)
+CORS(app)
 
-# Substitua "CAMINHO_CSV" pelo caminho real do seu arquivo CSV
-# ...existing code...
-# ...existing code...
 CAMINHO_CSV = "downloads/planilha.csv"
-# ...existing code...
-# ...existing code...
-
 search_service = SearchService(CAMINHO_CSV)
 
 @app.route('/buscar', methods=['GET'])
