@@ -1,0 +1,43 @@
+Instruções de Uso dos Scripts
+──────────────────────────────
+
+1. Pré-requisitos:
+    • Certifique-se de ter o PostgreSQL instalado e o utilitário psql disponível.
+    • Verifique se o banco de dados “ans_dados” já foi criado.
+    • Confirme que os arquivos CSV (por exemplo, Health Plan Operators Report.csv) estão no local correto (diretório downloads/link2).
+
+2. Acessando o Repositório:
+    • Abra o terminal e navegue até o diretório do projeto:
+
+3. Criação da Tabela:
+    • Execute o script “create.sql” para criar a tabela “operadoras” no banco de dados.
+    • No terminal, conecte-se ao banco de dados com:
+         psql -d ans_dados
+    • Em seguida, execute o comando:
+         \i create.sql
+
+4. Importação de Dados:
+    • Após a criação da tabela, execute o script “copyData.sql” para inserir os dados.
+    • Ainda no terminal conectado ao banco de dados, execute:
+         \i copyData.sql
+    • O script usará o comando \copy para importar os dados dos arquivos CSV.
+    • Certifique-se de que os delimitadores, cabeçalhos e encoding (UTF8) estejam configurados corretamente.
+
+5. Observações Gerais:
+    • Mantenha a estrutura dos arquivos CSV conforme esperado (delimitados por “;” e com cabeçalho).
+    • Caso haja alterações na estrutura ou local dos arquivos, atualize os caminhos e/ou parâmetros dos comandos de importação.
+    • Os scripts podem ser executados sequencialmente: primeiro a criação, depois a importação.
+    6. Teste e Validação:
+        • Após importar os dados, execute consultas simples para verificar se as tabelas foram preenchidas corretamente.
+        • Exemplo de consulta:
+             SELECT * FROM operadoras LIMIT 10;
+
+    7. Teste da Analytic Query:
+        • Para verificar as consultas analíticas, execute o script "analyticQuerie.sql".
+        • No terminal, estando conectado ao banco de dados "ans_dados", execute:
+             \i analyticQuerie.sql
+
+7. Atualizações Futuras:
+    • Para atualizar os dados, novos arquivos CSV podem ser importados usando novamente o script “copyData.sql”.
+    • Em caso de alteração na estrutura da tabela, ajuste primeiro o script “create.sql” e recrie (ou altere) a tabela conforme necessário.
+
