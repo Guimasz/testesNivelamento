@@ -9,13 +9,15 @@
       <button @click="buscar">Buscar</button>
   
       <div v-if="resultados.length">
-        <h2>Resultados:</h2>
-        <ul>
-          <li v-for="(resultado, index) in resultados" :key="index">
-            {{ resultado }}
-          </li>
-        </ul>
+      <h2>Resultados:</h2>
+      <div class="resultados">
+        <ResultCard
+          v-for="(resultado, index) in resultados"
+          :key="index"
+          :resultado="resultado"
+        />
       </div>
+    </div>
   
       <div v-if="erro" class="error">
         {{ erro }}
@@ -25,8 +27,12 @@
   
   <script>
   import axios from 'axios';
+  import ResultCard from './ResultCard.vue';
   
   export default {
+    components: {
+    ResultCard, 
+  },
     data() {
       return {
         termo: '',
@@ -44,7 +50,6 @@
         }
         try {
           const response = await axios.get(`http://127.0.0.1:5000/buscar?termo=${this.termo}`);
-          console.log(response.data);
           this.resultados = response.data.resultados;
         } catch (error) {
           this.erro = 'Erro ao buscar os dados. Tente novamente.';
