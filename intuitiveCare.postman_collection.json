@@ -1,0 +1,38 @@
+{
+    "info": {
+      "_postman_id": "0be9c7a1-1234-4567-89ab-cdef12345678",
+      "name": "IntuitiveCare API Collection",
+      "description": "Coleção para testar a rota /buscar da API IntuitiveCare.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Buscar operadoras",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://127.0.0.1:5000/buscar?termo=bradesco",
+            "protocol": "http",
+            "host": [
+              "127",
+              "0",
+              "0",
+              "1"
+            ],
+            "port": "5000",
+            "path": [
+              "buscar"
+            ],
+            "query": [
+              {
+                "key": "termo",
+                "value": "bradesco"
+              }
+            ]
+          }
+        },
+        "response": []
+      }
+    ]
+  }
