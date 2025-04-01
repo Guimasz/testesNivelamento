@@ -94,10 +94,10 @@
   }
   
  
-.grid {
+  .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Aumenta a largura mínima das colunas */
-  gap: 25px; /* Aumenta o espaçamento entre os grupos */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Largura mínima aumentada */
+  gap: 25px;
 }
 
 .coluna {
@@ -105,16 +105,13 @@
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;      /* Garante que o padding seja incluído na largura */
+  overflow: hidden;            /* Impede que o conteúdo ultrapasse os limites */
 }
 
-.valores {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.error {
-  color: red;
-  margin-top: 20px;
+/* Se necessário, ajuste também o conteúdo das cartas */
+.card {
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 </style>
