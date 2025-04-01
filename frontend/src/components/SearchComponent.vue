@@ -86,14 +86,14 @@
   }
   
   button:hover {
-    background-color: #0056b3;
+    background-color: #1f5e13;
   }
   
   .resultados {
     margin-top: 20px;
   }
   
-  <style scoped>
+ 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Aumenta a largura mínima das colunas */

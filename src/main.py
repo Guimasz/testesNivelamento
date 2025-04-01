@@ -3,7 +3,8 @@ from flask_cors import CORS
 from services import SearchService
 
 app = Flask(__name__)
-CORS(app)
+# Configura CORS para todas as rotas, permitindo qualquer origem
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 CAMINHO_CSV = "downloads/planilha.csv"
 search_service = SearchService(CAMINHO_CSV)
@@ -13,9 +14,7 @@ def buscar():
     termo = request.args.get('termo')
     if not termo:
         return jsonify({"erro": "O parâmetro 'termo' é obrigatório"}), 400
-
     resultado = search_service.search_text(termo)
-
     return jsonify({"resultados": resultado})
 
 if __name__ == '__main__':
